@@ -35,7 +35,9 @@
         "allowExpressions": true
       }
     ],
+    "@typescript-eslint/camelcase": "off",
     "no-unused-expressions": "off",
+    "import/no-duplicates" : "off",
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
     "prettier/prettier": "error",
