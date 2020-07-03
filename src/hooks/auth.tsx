@@ -19,7 +19,7 @@ interface SignInCredentials {
 
 interface AuthContextData {
   user: User;
-  sigIn(credentials: SignInCredentials): Promise<void>;
+  signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
   updateUser(user: User): void;
 }
@@ -38,7 +38,7 @@ const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthState;
   });
 
-  const sigIn = useCallback(async ({ email, password }) => {
+  const signIn = useCallback(async ({ email, password }) => {
     const response = await api.post('sessions', { email, password });
     const { token, user } = response.data;
     localStorage.setItem('@GoBarber:token', token);
@@ -69,7 +69,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, sigIn, signOut, updateUser }}
+      value={{ user: data.user, signIn, signOut, updateUser }}
     >
       {children}
     </AuthContext.Provider>
@@ -79,9 +79,6 @@ const AuthProvider: React.FC = ({ children }) => {
 function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
 
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
   return context;
 }
 export { AuthProvider, useAuth };

@@ -24,22 +24,26 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
-  const { sigIn } = useAuth();
+  const { signIn } = useAuth();
   const { addToast } = useToast();
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
       try {
         formRef.current?.setErrors({});
+
         const schema = Yup.object().shape({
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('Email inválido'),
           password: Yup.string().required('Senha obrigatória'),
         });
+
         await schema.validate(data, {
           abortEarly: false,
         });
-        await sigIn({ email: data.email, password: data.password });
+
+        await signIn({ email: data.email, password: data.password });
+
         history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -55,7 +59,7 @@ const SignIn: React.FC = () => {
         });
       }
     },
-    [sigIn, addToast, history],
+    [signIn, addToast, history],
   );
 
   return (
